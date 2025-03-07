@@ -11,14 +11,6 @@ Palette = [(0,0,0), (255,255,255), (0,255,0), (0,0,255), (255,0,0), (255,255,0),
 #Will be populated with the HunterLab values of the above Palette
 LABPalette = []
 
-#Allows multiple files in sequence to be dithered at once
-def FloydSteinbergDither(*argv):
-    #Foreach file
-    for arg in argv:
-        #Do the thing
-        Dither(arg)
-
-
 #Ratio of Error to distribute to East Pixel
 EastRatio = (7.00 / 16.00)
 #Ratio of Error to distribute to South-East Pixel
@@ -29,7 +21,7 @@ SouthRatio = (5.00 / 16.00)
 SouthWestRatio = (3.00 / 16.00)
 
 #Floyd-Steinberg Dithering, using HunterLab intermediary
-def Dither(fname):
+def FloydSteinbergDither(fname):
     #global Palette
     global LABPalette
     #If the HunterLab palette has not been populated
@@ -201,4 +193,8 @@ def FindClosestLAB(OldPixel):
     return index
 
 
-FloydSteinbergDither("C:\\{path to image to dither}")
+#FloydSteinbergDither("C:\\{path to image to dither}")
+if __name__ == "__main__":
+  if len(sys.argv) >= 2:
+    file = sys.argv[1]
+    FloydSteinbergDither(file)
