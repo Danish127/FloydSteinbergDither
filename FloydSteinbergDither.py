@@ -77,6 +77,12 @@ def Dither(fname):
             #If the pixel is supposed to be transparent, replace it with white, but continue to distribute the error outward
             if len(a) > 1 and a[y, x] == 0:
                 index = 1
+                #Toggle to true if you want to skip transparent pixels for error distribution
+                if True:
+                    ms.append(index)
+                    continue
+                    #Possibly use a heuristic to skip large groups of transparent pixels, but preserve for small groups
+
             #Grab the HunterLab value for the index
             New = LABPalette[index]
             
