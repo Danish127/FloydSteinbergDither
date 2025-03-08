@@ -134,6 +134,30 @@ def FloydSteinbergDither(fname):
     #Uncomment for generating a palette-shuffled image
     #random.shuffle(Palette)
 
+    #Write out the list of indecies
+    Indecies = [ms[i:i + len(Palette)] for i in range(0, len(ms), len(Palette))]
+
+    with open(fname + '_Reduced.trm', "wb") as binary_file:
+   
+        # Write bytes to file
+        
+        for c in Indecies:
+            tmp = 0x00_0000
+            tmp |= (c[0]<<21) 
+            tmp |= (c[1]<<18) 
+            tmp |= (c[2]<<15) 
+            tmp |= (c[3]<<12) 
+            tmp |= (c[4]<<9) 
+            tmp |= (c[5]<<6) 
+            tmp |= (c[6]<<3) 
+            tmp |= (c[7]<<0) 
+            #tmp = bytes(tmp)
+            #print(len(tmp))
+            binary_file.write(((tmp >> 16)&0xFF).to_bytes(1)) 
+            binary_file.write(((tmp >> 8)&0xFF).to_bytes(1)) 
+            binary_file.write(((tmp >> 0)&0xFF).to_bytes(1)) 
+
+
     #Once all done, convert the array of indecies back into the original palette
     ms = list(map(lambda x: Palette[x], ms))
 
@@ -145,7 +169,7 @@ def FloydSteinbergDither(fname):
 
     #show and save
     im.show()
-    im.save(fname + '_Dithered.bmp', )
+    im.save(fname + '_Dithered.bmp')
 
 
 #Code converted from ColorMine math to get RGB -> HunterLab
